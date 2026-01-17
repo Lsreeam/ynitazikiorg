@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping cart - ynitaziki.org</title>
+  <link rel="stylesheet" href="../styles/index_style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">ynitaziki<span>.org</span></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Explore</a>
+        <a href="#" class="nav-link" data-support-open>Support</a>
+      </nav>
+      <div class="search">
+        <input type="text" placeholder="search" aria-label="Search" />
+        <button class="search-btn" aria-label="Submit search">
+          <img src="../images/search_icon.png" alt="" class="search-icon" />
+        </button>
+      </div>
+      <div class="auth">
+        <a class="ghost" href="register.html">Sign up</a>
+        <a class="solid" href="login.html">Login</a>
+      </div>
+      <div class="user-bar" aria-hidden="true">
+        <div class="avatar" aria-label="User avatar" data-avatar></div>
+        <a class="cart-btn" href="shoppingcart.html" aria-label="Cart">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 6h14l-2 8H8L6 4H3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+            <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <main class="cart-main">
+      <div class="cart-header">
+        <h1>Shopping cart</h1>
+        <p>Review your picks and add items from favorites.</p>
+      </div>
+
+      <section class="cart-list" data-cart-list></section>
+      <p class="cart-empty" data-cart-empty hidden>Your cart is empty.</p>
+
+      <section class="cart-summary">
+        <div>
+          <span>Total items</span>
+          <strong data-cart-qty>0</strong>
+        </div>
+        <div>
+          <span>Total price</span>
+          <strong data-cart-total>$0.00</strong>
+        </div>
+        <div class="cart-summary-actions">
+          <button class="cart-clear" type="button" data-cart-clear>Clear cart</button>
+          <button class="cart-confirm" type="button" data-cart-confirm>Confirm order</button>
+        </div>
+      </section>
+
+      <section class="favorites-block">
+        <h2>Favorites</h2>
+        <p class="favorites-note">Add to cart anything you saved.</p>
+        <div class="favorites-list" data-favorites-list></div>
+        <p class="favorites-empty" data-favorites-empty hidden>No favorites yet.</p>
+      </section>
+
+      <section class="address-block">
+        <h2>Delivery details</h2>
+        <form class="address-form" data-delivery-form>
+          <label class="field">
+            <span>Full name</span>
+            <input type="text" name="fullName" placeholder="ПІБ" required />
+          </label>
+          <label class="field">
+            <span>Phone</span>
+            <input type="tel" name="phone" placeholder="+380..." required pattern="\\+?\\d[\\d\\s\\-]{7,}" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="name@email.com" required />
+          </label>
+          <label class="field">
+            <span>Region</span>
+            <input type="text" name="region" placeholder="Київська область" list="region-suggestions" data-region-input />
+            <datalist id="region-suggestions"></datalist>
+          </label>
+          <label class="field">
+            <span>City</span>
+            <input type="text" name="city" placeholder="Київ" list="city-suggestions" data-city-input />
+            <datalist id="city-suggestions"></datalist>
+          </label>
+          <label class="field">
+            <span>Address</span>
+            <input type="text" name="address" placeholder="Street, house" />
+          </label>
+          <p class="form-message" data-delivery-message></p>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div class="checkout-modal" data-checkout-modal aria-hidden="true">
+    <div class="checkout-backdrop" data-checkout-close></div>
+    <div class="checkout-panel" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="checkout-close" type="button" data-checkout-close aria-label="Close">&times;</button>
+      <h2 id="checkout-title">Purchase confirmed</h2>
+      <p>Thanks for your order! We'll reach out shortly.</p>
+      <button class="solid" type="button" data-checkout-close>Close</button>
+    </div>
+  </div>
+
+  <div class="support-modal" data-support-modal aria-hidden="true">
+    <div class="support-backdrop" data-support-close></div>
+    <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="support-title">
+      <button class="support-close" type="button" data-support-close aria-label="Close support">&times;</button>
+      <h2 id="support-title">Need a help?</h2>
+      <form class="support-form" id="support-form">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" name="name" placeholder="Name" required />
+        </label>
+        <label class="field">
+          <span>Surname</span>
+          <input type="text" name="surname" placeholder="Surname" required />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="Your email" required />
+        </label>
+        <label class="field">
+          <span>Description</span>
+          <textarea name="message" rows="4" placeholder="type description" required></textarea>
+        </label>
+        <button class="support-submit" type="submit">Submit</button>
+        <p class="form-message" data-message></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../scripts/main_sctipt.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - ynitaziki.org</title>
+  <link rel="stylesheet" href="../styles/index_style.css" />
+</head>
+<body>
+  <div class="page auth-page">
+    <header class="topbar">
+      <div class="brand">ynitaziki<span>.org</span></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Explore</a>
+        <a href="#" class="nav-link" data-support-open>Support</a>
+      </nav>
+      <div class="search">
+        <input type="text" placeholder="search" aria-label="Search" />
+        <button class="search-btn" aria-label="Submit search">
+          <img src="../images/search_icon.png" alt="" class="search-icon" />
+        </button>
+      </div>
+      <div class="auth">
+        <a class="ghost" href="register.html">Sign up</a>
+        <a class="solid" href="login.html">Login</a>
+      </div>
+      <div class="user-bar" aria-hidden="true">
+        <div class="avatar" aria-label="User avatar" data-avatar></div>
+        <a class="cart-btn" href="shoppingcart.html" aria-label="Cart"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 6h14l-2 8H8L6 4H3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+            <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+          </svg></a>
+      </div>
+    </header>
+
+    <main class="auth-main">
+      <section class="auth-card">
+        <h1>Register</h1>
+        <form class="auth-form" id="register-form">
+          <label class="field">
+            <span>Username</span>
+            <input type="text" name="username" autocomplete="username" required />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="new-password" required />
+          </label>
+          <label class="field">
+            <span>Confirm password</span>
+            <input type="password" name="confirm" autocomplete="new-password" required />
+          </label>
+          <button class="solid" type="submit">Register</button>
+          <p class="form-message" data-message></p>
+        </form>
+        <p class="form-hint">
+          Already have an account? <a href="login.html">Login</a>
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <div class="support-modal" data-support-modal aria-hidden="true">
+    <div class="support-backdrop" data-support-close></div>
+    <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="support-title">
+      <button class="support-close" type="button" data-support-close aria-label="Close support">&times;</button>
+      <h2 id="support-title">Need a help?</h2>
+      <form class="support-form" id="support-form">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" name="name" placeholder="Name" required />
+        </label>
+        <label class="field">
+          <span>Surname</span>
+          <input type="text" name="surname" placeholder="Surname" required />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="Your email" required />
+        </label>
+        <label class="field">
+          <span>Description</span>
+          <textarea name="message" rows="4" placeholder="type description" required></textarea>
+        </label>
+        <button class="support-submit" type="submit">Submit</button>
+        <p class="form-message" data-message></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../scripts/main_sctipt.js"></script>
+</body>
+</html>
+

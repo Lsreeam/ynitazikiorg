@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop - ynitaziki.org</title>
+  <link rel="stylesheet" href="../styles/index_style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">ynitaziki<span>.org</span></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Explore</a>
+        <a href="#" class="nav-link" data-support-open>Support</a>
+      </nav>
+      <div class="search">
+        <input type="text" placeholder="search" aria-label="Search" />
+        <button class="search-btn" aria-label="Submit search">
+          <img src="../images/search_icon.png" alt="" class="search-icon" />
+        </button>
+      </div>
+      <div class="auth">
+        <a class="ghost" href="register.html">Sign up</a>
+        <a class="solid" href="login.html">Login</a>
+      </div>
+      <div class="user-bar" aria-hidden="true">
+        <div class="avatar" aria-label="User avatar" data-avatar></div>
+        <a class="cart-btn" href="shoppingcart.html" aria-label="Cart">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 6h14l-2 8H8L6 4H3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="9" cy="20" r="1.5" fill="currentColor" />
+            <circle cx="18" cy="20" r="1.5" fill="currentColor" />
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <main class="shop-main">
+      <div class="shop-header">
+        <h1>Explore collection</h1>
+        <p>Premium toilets, bundles, and limited gold editions.</p>
+      </div>
+
+      <section class="shop-group">
+        <h2 class="shop-group-title">Classic</h2>
+        <div class="shop-grid">
+          <article class="product-card" data-product-id="classic-white" data-product-name="Classic White" data-product-price="199" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Classic white toilet" />
+              <span class="product-badge">Classic</span>
+            </div>
+            <div class="product-info">
+              <h3>Classic White</h3>
+              <p>Minimal ceramic with soft-close seat.</p>
+              <div class="product-price">
+                <span class="price">$199</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card" data-product-id="compact-air" data-product-name="Compact Air" data-product-price="139" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Compact toilet" />
+              <span class="product-badge">Compact</span>
+            </div>
+            <div class="product-info">
+              <h3>Compact Air</h3>
+              <p>Space-saving model for small rooms.</p>
+              <div class="product-price">
+                <span class="price">$139</span>
+                <span class="price-old">$199</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card is-gold" data-product-id="golden-aura" data-product-name="Golden Aura" data-product-price="2499" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Gold toilet" />
+              <span class="product-badge">Gold</span>
+            </div>
+            <div class="product-info">
+              <h3>Golden Aura</h3>
+              <p>Limited edition with shimmering finish.</p>
+              <div class="product-price">
+                <span class="price">$2,499</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card is-gold" data-product-id="golden-pack" data-product-name="Golden Pack" data-product-price="4499" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Gold pack" />
+              <span class="product-badge">Gold Pack</span>
+            </div>
+            <div class="product-info">
+              <h3>Golden Pack</h3>
+              <p>Two gold toilets with premium install.</p>
+              <div class="product-price">
+                <span class="price">$4,499</span>
+                <span class="price-old">$4,999</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="shop-group">
+        <h2 class="shop-group-title">Smart</h2>
+        <div class="shop-grid">
+          <article class="product-card" data-product-id="smart-flow" data-product-name="Smart Flow" data-product-price="399" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Smart toilet" />
+              <span class="product-badge">Smart</span>
+            </div>
+            <div class="product-info">
+              <h3>Smart Flow</h3>
+              <p>Heated seat + quiet flush system.</p>
+              <div class="product-price">
+                <span class="price">$399</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="shop-group">
+        <h2 class="shop-group-title">Packs</h2>
+        <div class="shop-grid">
+          <article class="product-card is-pack" data-product-id="family-pack" data-product-name="Family Pack" data-product-price="499" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Family pack" />
+              <span class="product-badge">Pack</span>
+            </div>
+            <div class="product-info">
+              <h3>Family Pack</h3>
+              <p>Bundle of 3 toilets with install kit.</p>
+              <div class="product-price">
+                <span class="price">$499</span>
+                <span class="price-old">$589</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card is-pack" data-product-id="office-pack" data-product-name="Office Pack" data-product-price="899" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Office pack" />
+              <span class="product-badge">Pack</span>
+            </div>
+            <div class="product-info">
+              <h3>Office Pack</h3>
+              <p>Five toilets built for high traffic.</p>
+              <div class="product-price">
+                <span class="price">$899</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card is-gold" data-product-id="golden-suite" data-product-name="Golden Suite" data-product-price="3299" data-product-image="../images/toilet_logo.png">
+            <div class="product-media">
+              <img src="../images/toilet_logo.png" alt="Golden suite" />
+              <span class="product-badge">Gold</span>
+            </div>
+            <div class="product-info">
+              <h3>Golden Suite</h3>
+              <p>Signature gold gloss with shine.</p>
+              <div class="product-price">
+                <span class="price">$3,299</span>
+              </div>
+              <div class="product-actions">
+                <button class="fave-btn" aria-label="Favorite" data-fave-toggle>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 3.9 1-5.8-4.2-4.1 5.8-.8L12 4z" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  </svg>
+                </button>
+                <button class="add-btn" data-add-to-cart>Add to cart</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="support-modal" data-support-modal aria-hidden="true">
+    <div class="support-backdrop" data-support-close></div>
+    <div class="support-panel" role="dialog" aria-modal="true" aria-labelledby="support-title">
+      <button class="support-close" type="button" data-support-close aria-label="Close support">&times;</button>
+      <h2 id="support-title">Need a help?</h2>
+      <form class="support-form" id="support-form">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" name="name" placeholder="Name" required />
+        </label>
+        <label class="field">
+          <span>Surname</span>
+          <input type="text" name="surname" placeholder="Surname" required />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="Your email" required />
+        </label>
+        <label class="field">
+          <span>Description</span>
+          <textarea name="message" rows="4" placeholder="type description" required></textarea>
+        </label>
+        <button class="support-submit" type="submit">Submit</button>
+        <p class="form-message" data-message></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../scripts/main_sctipt.js"></script>
+</body>
+</html>
