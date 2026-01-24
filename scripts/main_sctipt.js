@@ -1,5 +1,6 @@
 ﻿const STORAGE_USER = "ynitaziki_user";
 const STORAGE_SESSION = "ynitaziki_session";
+const STORAGE_PROFILE = "ynitaziki_profile";
 const COOKIE_CART = "ynitaziki_cart";
 const COOKIE_FAVES = "ynitaziki_faves";
 
@@ -13,6 +14,10 @@ const setCookie = (name, value, days = 30) => {
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 };
 
+const clearCookie = (name) => {
+  setCookie(name, "", -1);
+};
+
 const readCookieJSON = (name, fallback) => {
   try {
     const raw = getCookie(name);
@@ -24,6 +29,18 @@ const readCookieJSON = (name, fallback) => {
 
 const writeCookieJSON = (name, value) => {
   setCookie(name, JSON.stringify(value));
+};
+
+const getProfile = () => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_PROFILE)) || {};
+  } catch (error) {
+    return {};
+  }
+};
+
+const saveProfile = (profile) => {
+  localStorage.setItem(STORAGE_PROFILE, JSON.stringify(profile));
 };
 
 const getStoredUser = () => {
@@ -46,17 +63,25 @@ const setMessage = (element, message, isError = false) => {
 const updateHeaderAuth = () => {
   const avatar = document.querySelector("[data-avatar]");
   const username = localStorage.getItem(STORAGE_SESSION);
+  const profile = getProfile();
 
   if (username) {
     document.body.classList.add("is-auth");
     if (avatar) {
-      avatar.textContent = username.charAt(0).toUpperCase();
+      if (profile.avatar) {
+        avatar.textContent = "";
+        avatar.style.backgroundImage = `url(${profile.avatar})`;
+      } else {
+        avatar.textContent = username.charAt(0).toUpperCase();
+        avatar.style.backgroundImage = "";
+      }
       avatar.setAttribute("title", username);
     }
   } else {
     document.body.classList.remove("is-auth");
     if (avatar) {
       avatar.textContent = "";
+      avatar.style.backgroundImage = "";
       avatar.removeAttribute("title");
     }
   }
@@ -291,7 +316,12 @@ const renderCartItems = (list, items) => {
           <h3>${item.name}</h3>
           <p class="cart-price">$${item.price}</p>
           <div class="cart-meta">
-            <span class="cart-qty">Qty: ${item.qty}</span>
+            <div class="cart-qty-controls">
+              <button class="qty-btn" type="button" data-qty-decrease>-</button>
+              <span class="cart-qty">${item.qty}</span>
+              <button class="qty-btn" type="button" data-qty-increase>+</button>
+            </div>
+            <span class="cart-line">$${(item.qty * item.price).toFixed(2)}</span>
             <button class="cart-remove" type="button" data-cart-remove>Remove</button>
           </div>
         </div>
@@ -359,6 +389,31 @@ const initCartPage = () => {
 
   cartList.addEventListener("click", (event) => {
     const removeButton = event.target.closest("[data-cart-remove]");
+    const increaseButton = event.target.closest("[data-qty-increase]");
+    const decreaseButton = event.target.closest("[data-qty-decrease]");
+
+    if (increaseButton || decreaseButton) {
+      const item = event.target.closest("[data-cart-id]");
+      if (!item) {
+        return;
+      }
+      const id = item.dataset.cartId;
+      const items = getCartItems();
+      const entry = items.find((cartItem) => cartItem.id === id);
+      if (!entry) {
+        return;
+      }
+      if (increaseButton) {
+        entry.qty += 1;
+      }
+      if (decreaseButton) {
+        entry.qty = Math.max(1, entry.qty - 1);
+      }
+      saveCartItems(items);
+      refresh();
+      return;
+    }
+
     if (!removeButton) {
       return;
     }
@@ -412,6 +467,44 @@ const initCartClear = () => {
   });
 };
 
+const validateDeliveryForm = (form, messageEl) => {
+  if (!form) {
+    return true;
+  }
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    setMessage(messageEl, "Please fill delivery details correctly.", true);
+    return false;
+  }
+
+  const fullName = form.querySelector("input[name='fullName']")?.value.trim() || "";
+  const phone = form.querySelector("input[name='phone']")?.value.trim() || "";
+  const region = form.querySelector("input[name='region']")?.value.trim() || "";
+  const city = form.querySelector("input[name='city']")?.value.trim() || "";
+  const address = form.querySelector("input[name='address']")?.value.trim() || "";
+
+  const nameParts = fullName.split(/\s+/).filter(Boolean);
+  if (nameParts.length < 2) {
+    setMessage(messageEl, "Please enter full name.", true);
+    return false;
+  }
+
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length < 10 || digits.length > 15) {
+    setMessage(messageEl, "Please enter a valid phone number.", true);
+    return false;
+  }
+
+  if (region.length < 3 || city.length < 2 || address.length < 5) {
+    setMessage(messageEl, "Please enter a full delivery address.", true);
+    return false;
+  }
+
+  setMessage(messageEl, "", false);
+  return true;
+};
+
 const initCheckoutModal = () => {
   const modal = document.querySelector("[data-checkout-modal]");
   if (!modal) {
@@ -443,13 +536,9 @@ const initCheckoutModal = () => {
   const confirmBtn = document.querySelector("[data-cart-confirm]");
   if (confirmBtn) {
     confirmBtn.addEventListener("click", () => {
-      if (deliveryForm && !deliveryForm.checkValidity()) {
-        deliveryForm.reportValidity();
-        setMessage(deliveryMessage, "Заповніть контактні дані коректно.", true);
+      if (!validateDeliveryForm(deliveryForm, deliveryMessage)) {
         return;
       }
-
-      setMessage(deliveryMessage, "", false);
       const items = getCartItems();
       if (!items.length) {
         return;
@@ -508,6 +597,231 @@ const initAddressSuggestions = () => {
   fillDatalist(cityDatalist, cities);
 };
 
+const initDeliveryPrefill = () => {
+  const form = document.querySelector("[data-delivery-form]");
+  if (!form) {
+    return;
+  }
+
+  const profile = getProfile();
+  const user = getStoredUser();
+
+  const nameInput = form.querySelector("input[name='fullName']");
+  const phoneInput = form.querySelector("input[name='phone']");
+  const emailInput = form.querySelector("input[name='email']");
+  const cityInput = form.querySelector("input[name='city']");
+
+  if (nameInput && !nameInput.value) {
+    nameInput.value = profile.name || "";
+  }
+  if (phoneInput && !phoneInput.value) {
+    phoneInput.value = profile.phone || "";
+  }
+  if (emailInput && !emailInput.value) {
+    emailInput.value = user?.email || "";
+  }
+  if (cityInput && !cityInput.value) {
+    cityInput.value = profile.city || "";
+  }
+};
+
+const initProfilePage = () => {
+  const page = document.querySelector("[data-profile-page]");
+  if (!page) {
+    return;
+  }
+
+  const user = getStoredUser();
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const profile = getProfile();
+  const nameInput = page.querySelector("[data-profile-name]");
+  const emailInput = page.querySelector("[data-profile-email]");
+  const phoneInput = page.querySelector("[data-profile-phone]");
+  const cityInput = page.querySelector("[data-profile-city]");
+  const cover = page.querySelector("[data-profile-cover]");
+  const avatar = page.querySelector("[data-profile-avatar]");
+  const coverInput = page.querySelector("[data-profile-upload-cover]");
+  const avatarInput = page.querySelector("[data-profile-upload-avatar]");
+  const logoutBtn = page.querySelector("[data-profile-logout]");
+  const deleteBtn = page.querySelector("[data-profile-delete]");
+
+  if (nameInput) {
+    nameInput.value = profile.name || user.username || "";
+  }
+  if (emailInput) {
+    emailInput.value = user.email || "";
+  }
+  if (phoneInput) {
+    phoneInput.value = profile.phone || "";
+  }
+  if (cityInput) {
+    cityInput.value = profile.city || "";
+  }
+  if (cover && profile.cover) {
+    cover.style.backgroundImage = `url(${profile.cover})`;
+  }
+  if (avatar && profile.avatar) {
+    avatar.style.backgroundImage = `url(${profile.avatar})`;
+  }
+
+  const readImage = (file, callback) => {
+    const reader = new FileReader();
+    reader.onload = () => callback(String(reader.result || ""));
+    reader.readAsDataURL(file);
+  };
+
+  if (coverInput) {
+    coverInput.addEventListener("change", () => {
+      const file = coverInput.files && coverInput.files[0];
+      if (!file) {
+        return;
+      }
+      readImage(file, (src) => {
+        cover.style.backgroundImage = `url(${src})`;
+        saveProfile({ ...getProfile(), cover: src });
+      });
+    });
+  }
+
+  if (avatarInput) {
+    avatarInput.addEventListener("change", () => {
+      const file = avatarInput.files && avatarInput.files[0];
+      if (!file) {
+        return;
+      }
+      readImage(file, (src) => {
+        avatar.style.backgroundImage = `url(${src})`;
+        saveProfile({ ...getProfile(), avatar: src });
+        updateHeaderAuth();
+      });
+    });
+  }
+
+  if (nameInput) {
+    nameInput.addEventListener("input", () => {
+      saveProfile({ ...getProfile(), name: nameInput.value.trim() });
+    });
+  }
+
+  if (phoneInput) {
+    phoneInput.addEventListener("input", () => {
+      saveProfile({ ...getProfile(), phone: phoneInput.value.trim() });
+    });
+  }
+
+  if (cityInput) {
+    cityInput.addEventListener("input", () => {
+      saveProfile({ ...getProfile(), city: cityInput.value.trim() });
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_SESSION);
+      updateHeaderAuth();
+      window.location.href = "index.html";
+    });
+  }
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", () => {
+      if (!window.confirm("Delete account permanently?")) {
+        return;
+      }
+      localStorage.removeItem(STORAGE_USER);
+      localStorage.removeItem(STORAGE_SESSION);
+      localStorage.removeItem(STORAGE_PROFILE);
+      clearCookie(COOKIE_CART);
+      clearCookie(COOKIE_FAVES);
+      updateHeaderAuth();
+      window.location.href = "index.html";
+    });
+  }
+};
+
+
+const initSearchSuggestions = () => {
+  const input = document.querySelector("[data-search-input]");
+  const results = document.querySelector("[data-search-results]");
+  if (!input || !results) {
+    return;
+  }
+
+  const products = Array.from(document.querySelectorAll("[data-product-name]")).map((card) => ({
+    id: card.dataset.productId,
+    name: card.dataset.productName,
+  }));
+
+  const render = (items) => {
+    results.innerHTML = items
+      .slice(0, 6)
+      .map(
+        (item) =>
+          `<a class="search-item" href="#${item.id}" data-search-id="${item.id}">${item.name}</a>`
+      )
+      .join("");
+    results.classList.toggle("is-open", items.length > 0);
+  };
+
+  input.addEventListener("input", () => {
+    const query = input.value.trim().toLowerCase();
+    if (!query) {
+      results.classList.remove("is-open");
+      results.innerHTML = "";
+      return;
+    }
+    const matches = products.filter((item) => item.name.toLowerCase().includes(query));
+    render(matches);
+  });
+
+  results.addEventListener("click", (event) => {
+    const link = event.target.closest("[data-search-id]");
+    if (!link) {
+      return;
+    }
+    event.preventDefault();
+    const id = link.dataset.searchId;
+    const target = document.querySelector(`[data-product-id=\"${id}\"]`);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    results.classList.remove("is-open");
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!results.contains(event.target) && event.target !== input) {
+      results.classList.remove("is-open");
+    }
+  });
+};
+
+const initScrollReveal = () => {
+  const elements = document.querySelectorAll(".product-card");
+  if (!elements.length) {
+    return;
+  }
+
+  elements.forEach((el) => el.classList.add("reveal"));
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  elements.forEach((el) => observer.observe(el));
+};
+
 updateHeaderAuth();
 initLoginForm();
 initRegisterForm();
@@ -519,3 +833,8 @@ initCartPage();
 initCartClear();
 initCheckoutModal();
 initAddressSuggestions();
+initProfilePage();
+initSearchSuggestions();
+initScrollReveal();
+initDeliveryPrefill();
+

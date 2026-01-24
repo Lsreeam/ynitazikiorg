@@ -26,7 +26,7 @@
         <a class="solid" href="login.html">Login</a>
       </div>
       <div class="user-bar" aria-hidden="true">
-        <div class="avatar" aria-label="User avatar" data-avatar></div>
+        <a class="avatar-link" href="profile.html" aria-label="Profile"><div class="avatar" aria-label="User avatar" data-avatar></div></a>
         <a class="cart-btn" href="shoppingcart.html" aria-label="Cart">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M7 6h14l-2 8H8L6 4H3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -73,7 +73,7 @@
         <form class="address-form" data-delivery-form>
           <label class="field">
             <span>Full name</span>
-            <input type="text" name="fullName" placeholder="ПІБ" required />
+            <input type="text" name="fullName" placeholder="ПІБ" required minlength="3" />
           </label>
           <label class="field">
             <span>Phone</span>
@@ -85,17 +85,17 @@
           </label>
           <label class="field">
             <span>Region</span>
-            <input type="text" name="region" placeholder="Київська область" list="region-suggestions" data-region-input />
+            <input type="text" name="region" placeholder="Київська область" list="region-suggestions" data-region-input required />
             <datalist id="region-suggestions"></datalist>
           </label>
           <label class="field">
             <span>City</span>
-            <input type="text" name="city" placeholder="Київ" list="city-suggestions" data-city-input />
+            <input type="text" name="city" placeholder="Київ" list="city-suggestions" data-city-input required />
             <datalist id="city-suggestions"></datalist>
           </label>
           <label class="field">
             <span>Address</span>
-            <input type="text" name="address" placeholder="Street, house" />
+            <input type="text" name="address" placeholder="Street, house" required />
           </label>
           <p class="form-message" data-delivery-message></p>
         </form>
@@ -144,3 +144,4 @@
   <script src="../scripts/main_sctipt.js"></script>
 </body>
 </html>
+
